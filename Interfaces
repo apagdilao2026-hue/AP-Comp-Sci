@@ -1,0 +1,89 @@
+import java.util.ArrayList;
+import java.util.Collections;
+public class Interfaces {
+/**
+     * @param args the command line arguments
+     */
+    // Interface for priority
+    interface Priority { 
+        void setPriority(int priority);
+        int getPriority();
+    }
+    
+    //complexity interface
+    interface Complexity {
+        void setComplexity(int priority);
+        int getComplexity();
+    }
+//task class implementing priority, complexity, and comparable
+    class Task implements Priority, Complexity, Comparable<Task> {
+        private String name;
+        private int priority;
+        private int complexity;
+        
+    //constructor
+        public Task (String name, int priority, int complexity) {
+            this.name = name;
+            this.priority = priority;
+            this.complexity = complexity;
+        }
+// priority methods
+        public void setPriority (int priority) {
+            this.priority = priority;
+        }
+        
+        public int getPriority() {
+            return priority;
+        }
+        
+    // complexity methods    
+        public void setComplexity (int complexity) {
+            this.complexity = complexity;
+        }
+        
+        public int getComplexity() {
+            return complexity;
+        }
+//comparable method: sort by priority first, then complexity 
+        @Override
+        public int compareTo (Task other) {
+            //higher priority comes first
+            if (this.priority != other.priority) {
+                return other.priority - this.priority;
+            }
+            //if priority is the same sort by complexity (higher complexity first)
+            return other.complexity - this.complexity;
+        }
+        
+        @Override
+        public String toString() {
+            return "Task: " +  name + " Priority: " + priority + " Complexity: " + complexity;
+        } 
+}
+
+//driver class
+            public static void main(String[] args) {
+             //tasks
+             Task t1 = new Task ("Complete homework", 5, 8);
+             Task t2 = new Task ("Clean room", 2, 6);
+             Task t3 = new Task ("Take care of my health", 5, 10);
+             Task t4 = new Task ("Practice for softball", 4, 8);
+             Task t5 = new Task ("Spend time with family and friends", 3, 4);
+             
+             //add tasks to a list
+             ArrayList<Task> tasks = new ArrayList<>();
+             tasks.add(t1);
+             tasks.add(t2);
+             tasks.add(t3);
+             tasks.add(t4);
+             tasks.add(t5);
+//sort tasks by priority then complexity
+             Collections.sort(tasks);
+             
+             //displayed sorted tasks
+             System.out.println("Tasks ranked by priority and complexity:");
+             for (Task t : tasks) {
+                 System.out.println(t);
+             }
+         }
+    }
