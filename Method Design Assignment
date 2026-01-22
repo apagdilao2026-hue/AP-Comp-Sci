@@ -1,0 +1,119 @@
+import java.util.Scanner;
+public class StudentMain {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        Scanner scan = new Scanner (System.in);
+        
+        //get student name
+        System.out.print("Enter student's first name: ");
+        String first = scan.nextLine();
+        
+        System.out.print("Enter student's last name: ");
+        String last = scan.nextLine();
+        
+        //create student object
+        Student student = new Student(first, last);
+        
+        //get test scores for 3 courses
+        for (int i = 1; i <= 3; i++ ) {
+           System.out.print("Enter test score for Course " + i + ": ");
+           int score = scan.nextInt();
+           student.setTestScore(i, score);
+        }
+        
+        //dislay student information
+        System.out.print("Student Information");
+        System.out.print(student);
+        
+        //display average
+        System.out.print("Average Score: " + student.getAverage());
+        
+        scan.close();
+    }
+   } 
+    
+    class Student {
+        private String firstName;
+        private String lastName;
+        
+        private Course c1;
+        private Course c2;
+        private Course c3;
+        
+        //empty constructor
+        public Student() {
+            firstName = " ";
+            lastName = " ";
+            
+            c1 = new Course();
+            c2 = new Course();
+            c3 = new Course();
+        }
+        
+        //constructor with name
+        public Student(String first, String last) {
+            firstName = first;
+            lastName = last;
+            
+            c1 = new Course();
+            c2 = new Course();
+            c3 = new Course();
+        }
+        
+        //set test score for a course
+        
+    public void setTestScore(int courseNum, int score)  {
+        if (courseNum == 1)
+            c1.setTestScore(score);
+        else if (courseNum == 2)
+            c2.setTestScore(score);
+        else if (courseNum == 3)
+            c3.setTestScore(score);
+    }
+    
+    //get test score for a course
+    public int getTestScore(int courseNum) {
+        if (courseNum == 1)
+            return c1.getTestScore();
+        else if (courseNum == 2)
+           return c2.getTestScore();
+        else
+            return c3.getTestScore();   
+    }
+    
+    //compute average score
+    public double getAverage()  {
+        return (c1.getTestScore() + c2.getTestScore() + c3.getTestScore()) / 3.0;
+    }
+    
+    //toString method
+    public String toString() {
+        return "Student Name: " + firstName + " " + lastName + " " 
+               + "Course 1 Score: " + c1.getTestScore() + " " 
+               + "Course 2 Score: " + c2.getTestScore() + " " 
+               + "Course 3 Score: " + c3.getTestScore(); 
+        
+    }
+}
+    class Course {
+        private int testScore;
+        
+        public Course () {
+            testScore = 0;
+        }
+        
+        public Course (int score) {
+            testScore = score;
+        }
+        
+        public void setTestScore(int score) {
+            testScore = score;
+        }
+        
+        public int getTestScore() {
+            return testScore;
+        } 
+    }
