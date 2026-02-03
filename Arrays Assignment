@@ -1,0 +1,56 @@
+import java.util.Random;
+import java.util.Arrays;
+
+public class ArraysAssignment {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        // initialize array with all 7 days of the week
+        String[] weekDays = {
+            "Monday", "Tuesday", "Wednesday", 
+            "Thursday", "Friday", "Saturday", "Sunday"
+        };
+        
+        //print all 7 days one per row
+        System.out.println("All days of the week");
+        for (String day: weekDays) {
+            System.out.println(day);
+        }
+        
+        // resizing the array
+        // resize the array to holf only 5 weekdays with no saturday or sunday
+        
+        String[] weekDays5 = new String[5];
+        
+        //copy only weekdays into the new resized array
+        for (int i = 0; i < weekDays5.length; i++) {
+            weekDays5[i] = weekDays[i];
+        }
+        
+        // print weekdays only
+        System.out.println("Weekdays only");
+        for (String day: weekDays5) {
+            System.out.println(day);
+        }
+        
+        // bonus point: shuffle
+        System.out.println("Before shuffle: " + Arrays.toString(weekDays5));
+        
+        //create randomizer class
+        Random rand = new Random();
+        
+        for (int i = 0; i < weekDays5.length; i++) {
+            int randomIndexToSwap = rand.nextInt(weekDays5.length);
+            
+            String temp = weekDays5[randomIndexToSwap];
+            
+            weekDays5[randomIndexToSwap] = weekDays5[i];
+            
+            weekDays5[i] = temp;
+        }
+        
+        System.out.println("After suffle: " +  Arrays.toString(weekDays5));
+    }
+}  
