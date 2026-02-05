@@ -1,0 +1,74 @@
+import java.util.Random;
+public class DeckofCards2D {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        // create a 2D array for the deck
+        // 4 rows = suits, 13 columns = cards (ace to king)
+        
+        String[][] deckOfCards = new String[4][13];
+        
+        // array holding the suit names
+        String[] suits = {"Diamonds", "Hearts", "Clubs", "Spades"};
+        // array holding the card names
+        String[] values = {
+            "Ace", "2", "3","4", "5","6", "7",
+            "8", "9","10", "Jack","Queen", "King"
+        };
+        
+        // fill the deck with cards
+        
+        for (int suit = 0; suit < deckOfCards.length; suit++){
+            for (int card = 0; card < deckOfCards[suit].length; card++) {
+                deckOfCards[suit][card] = values[card] + " of " + suits[suit];
+            }
+        }
+        
+        // random object for shuffling
+        Random rand = new Random();
+        
+        //shuffle the deck by swapping each card with a random card
+        for (int suit = 0; suit < deckOfCards.length; suit++) {
+            for (int card = 0; card < deckOfCards[suit].length; card++) {
+                
+                //pick a random position in the deck
+                int randomSuit = rand.nextInt(4);
+                int randomCard = rand.nextInt(13);
+                
+                //swap the current card with the random card
+                String temp = deckOfCards[suit][card];
+                deckOfCards[suit][card] = deckOfCards[randomSuit][randomCard];
+                deckOfCards[randomSuit][randomCard] = temp;
+            }
+        }
+        
+        // keep track of which card to deal next
+        int cardIndex = 0;
+        
+        // deal 4 hands
+        for (int hand = 0; hand < 4; hand++) {
+            
+            //print the hand label
+            System.out.println(suits[hand] + " Hand:");
+            
+            // deal 5 cards per hand
+            for (int card = 0; card < 5; card++) {
+                
+                // convert single index into 2D array positions
+                int suit = cardIndex / 13;
+                int value = cardIndex % 13;
+                
+                // print card
+                 System.out.println(deckOfCards[suit][value]);
+                 
+                 // move to next card so no card is reused
+                 cardIndex++;
+            }
+            
+            System.out.println();
+        }
+    }
+    
+}
