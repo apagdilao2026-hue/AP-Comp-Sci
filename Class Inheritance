@@ -1,0 +1,283 @@
+public class VehicleInheritance {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        
+        //fully electric car
+        TeslaModel3 tesla = new TeslaModel3(85, 5, 900, 75, 363);
+        tesla.setSpoiler(true);
+        tesla.setStereo(true);
+        
+        //hybrid car
+        ToyotaPrius2025 prius = new ToyotaPrius2025(70, 5, 800, 52, 44, 220);
+        
+        //boats
+        SpeedBoat speedBoat = new SpeedBoat("Yamaha Speedster", 50, 6, 500, 65);
+        FishingBoat fishingBoat = new FishingBoat("Tracker Pro 170", 35, 4, 700, 6);
+        
+        //airplanes
+        CommercialJet jet = new CommercialJet("Boeing 737", 570, 180, 40000, 3500);
+        FighterJet fighter = new FighterJet("F-16 Falcon", 915, 1, 20000, 50000, 1500);
+        
+        //two random vehicles
+        Hovercraft hover = new Hovercraft("Amphibious X1", 60, 8, 1000, 12);
+        MarsRover rover = new MarsRover("NASA Perseverance", 0.1, 0, 2000, 9.5);
+        
+        //print them all
+        System.out.println("TESLA");
+        System.out.println(tesla);
+        
+        System.out.println("PRIUS");
+        System.out.println(prius);
+        
+        System.out.println("SPEED BOAT");
+        System.out.println(speedBoat);
+        
+        System.out.println("FISHING BOAT");
+        System.out.println(fishingBoat);
+        
+        System.out.println("COMMERCIAL JET");
+        System.out.println(jet);
+        
+        System.out.println("FIGHTER JET");
+        System.out.println(fighter);
+        
+        System.out.println("HOVERCRAFT");
+        System.out.println(hover);
+        
+        System.out.println("MARS ROVER");
+        System.out.println(rover);
+        
+    }
+    
+}
+
+//speedometer interface
+interface Speedometer {
+        void setSpeed(double inSpeed);
+        double getSpeed();
+}
+
+//base vehicle class
+class Vehicle implements Speedometer {
+        protected String brandName;
+        protected double speed;
+        protected int passengers;
+        protected double cargoWeight;
+        
+        public Vehicle(String brand, double speed, int passengers, double cargo) {
+            this.brandName = brand;
+            this.speed = speed;
+            this.passengers = passengers;
+            this.cargoWeight = cargo;
+        }
+        
+        public void setSpeed(double inSpeed) {
+            speed = inSpeed;
+        }
+        
+        public double getSpeed() {
+            return speed;
+        }
+        
+        public String getBrand() {
+            return brandName;
+        }
+        
+        public String toString() {
+            return "Brand: " + brandName +
+                    "Speed (mph): " + getSpeed() +
+                    "Passengers: " + passengers +
+                    "Cargo (lbs): " + cargoWeight;
+            
+        }
+}
+
+//car class (inherits vehicle)
+class Car extends Vehicle {
+        
+        int wheels = 4;
+        boolean spoiler = false;
+        boolean stereo = false;
+        double mpg;
+        
+        public Car(String brand, double speed, int passengers,
+                   double cargo, double mpg) {
+            super(brand, speed, passengers, cargo);
+            this.mpg = mpg;
+        }
+        
+        public void setSpoiler(boolean s) {
+            spoiler = s;
+        }
+        
+        public void setStereo(boolean s) {
+            stereo = s;
+        }
+        
+        //spolier increases speed
+        @Override
+        public double getSpeed() {
+            if (spoiler)
+                return super.getSpeed() + 20;
+            return super.getSpeed();
+        }
+        
+        //stereo reduces MPG
+        public double getMPG() {
+            if (stereo)
+                return mpg - (mpg / 10);
+            return mpg;
+        }
+        
+        public String toString() {
+            return super.toString() +
+                    "MPG: " + getMPG();
+        }  
+}
+
+//electric car
+class TeslaModel3 extends Car {
+        
+        private double batteryCapacity;
+        private double range; 
+        
+        public TeslaModel3(double speed, int passengers, double cargo,
+                           double batteryCapacity, double range) {
+            super("Tesla Model 3 (2025)", speed, passengers, cargo, 0);
+            this.batteryCapacity = batteryCapacity;
+            this.range = range;
+        }
+        
+        public String toString() {
+            return super.toString() +
+                    "Battery (kWh): " + batteryCapacity +
+                    "Range (mi): " + range;
+        }
+}
+
+//hybrid car
+class ToyotaPrius2025 extends Car {
+    
+        private double electricRange;
+        private double horsepower;
+        
+        public ToyotaPrius2025(double speed, int passengers, double cargo,
+                           double mpg, double electricRange,
+                           double horsepower) {
+            super("Toyota Prius Hybrid (2025)", speed, passengers, cargo, mpg);
+            this.electricRange = electricRange;
+            this.horsepower = horsepower;
+        }
+        
+        public String toString() {
+            return super.toString() +
+                    "Electric Range (mi): " + electricRange +
+                    "Horsepower: " + horsepower;
+        }
+}
+
+//boat classes
+class SpeedBoat extends Vehicle {
+    
+        private double topWaterSpeed;
+        
+        public SpeedBoat(String brand, double speed, int passengers,
+                           double cargo, double topWaterSpeed) {
+            super(brand, speed, passengers, cargo);
+            this.topWaterSpeed = topWaterSpeed;
+        }
+        
+        public String toString() {
+            return super.toString() +
+                    "Top Water Speed (mph): " + topWaterSpeed;
+        }
+}
+
+class FishingBoat extends Vehicle {
+    
+        private int rodHolders;
+        
+        public FishingBoat(String brand, double speed, int passengers,
+                           double cargo, int rods) {
+            super(brand, speed, passengers, cargo);
+            this.rodHolders = rods;
+        }
+        
+        public String toString() {
+            return super.toString() +
+                    "Rod Holders: " + rodHolders;
+        }
+}
+
+//airplane classes
+class CommercialJet extends Vehicle {
+    
+        private int range;
+        
+        public CommercialJet(String brand, double speed, int passengers,
+                           double cargo, int range) {
+            super(brand, speed, passengers, cargo);
+            this.range = range;
+        }
+        
+        public String toString() {
+            return super.toString() +
+                    "Flight range (mi): " + range;
+        }
+}
+
+class FighterJet extends Vehicle {
+    
+        private double maxAltitude;
+        private double afterburnerSpeed;
+        
+        public FighterJet(String brand, double speed, int passengers,
+                           double cargo, double altitude,
+                           double afterburnerSpeed) {
+            super(brand, speed, passengers, cargo);
+            this.maxAltitude= altitude;
+            this.afterburnerSpeed = afterburnerSpeed;
+        }
+        
+        public String toString() {
+            return super.toString() +
+                    "Max Altitude (ft): " + maxAltitude +
+                    "Afterburner Speed (mph):" + afterburnerSpeed ;
+        }
+}
+
+//creative vehicles
+class Hovercraft extends Vehicle {
+    
+        private double liftHeight;
+        
+        public Hovercraft(String brand, double speed, int passengers,
+                           double cargo, double liftHeight) {
+            super(brand, speed, passengers, cargo);
+            this.liftHeight = liftHeight;
+        }
+        
+        public String toString() {
+            return super.toString() +
+                    "Lift Height (inches): " + liftHeight;
+        }
+}
+
+class MarsRover extends Vehicle {
+    
+        private double tractionLevel;
+        
+        public MarsRover(String brand, double speed, int passengers,
+                           double cargo, double traction) {
+            super(brand, speed, passengers, cargo);
+            this.tractionLevel = traction;
+        }
+        
+        public String toString() {
+            return super.toString() +
+                    "Traction Level: " + tractionLevel;
+        }
+}
