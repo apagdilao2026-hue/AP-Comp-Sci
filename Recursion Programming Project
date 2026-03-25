@@ -1,0 +1,36 @@
+import java.util.Arrays;
+public class PascalTriangle {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static int[] getRow(int n) {
+        //base case
+        if (n==0) {
+            return new int[]{1};
+        }
+        
+        //recursive call to get previous row
+        int[] prevRow = getRow(n - 1);
+        
+        //create current row
+        int[] currRow = new int[n + 1];
+        currRow[0] = 1;
+        currRow[n] = 1;
+        
+        //fill interior value
+        for (int i = 1; i < n; i++) {
+            currRow[i] = prevRow[i - 1] + prevRow[i];
+        }
+        
+        return currRow;
+    }
+    
+    public static void main(String[] args) {
+        int N = 7; // change this to any row you want
+        int[] result = getRow(N);
+        
+        System.out.println("Row " + N + ": " + Arrays.toString(result));
+    }
+    
+}
