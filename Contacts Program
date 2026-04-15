@@ -1,0 +1,102 @@
+import java.util.*;
+import java.io.*;
+public class ContactsProgram {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        ArrayList<Contact> contacts = new ArrayList<>();
+        
+        File file = new File("Contacts/contacts.csv");
+
+        try (Scanner fileScanner = new Scanner(file)) {
+            while (fileScanner.hasNextLine()) {
+                String line = fileScanner.nextLine();
+                Scanner read = new Scanner(line);
+                read.useDelimiter(",");
+                
+            if (read.hasNext()) {    
+
+                String name = read.next();
+                String email = read.next();
+                int gradYear = read.nextInt();
+                String username = read.next();
+
+                contacts.add(new Contacts(name, email, gradYear, username));
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("No existing file found, starting fresh.");
+        }
+
+        //user interaction loop
+        char choice;
+        
+         do {
+            System.out.println("\nChoose an option:");
+            System.out.println("a - Add contact");
+            System.out.println("e - Sort by email");
+            System.out.println("y - Sort by grad year");
+            System.out.println("n - Sort by name");
+            System.out.println("q - Quit");
+
+        
+            choice = input.next().charAt(0);
+            input.nextLine();
+            
+            if (choice == 'a') {
+                // add contact
+                System.out.print("Enter name: ");
+                String name = input.nextLine();
+                
+                System.out.print("Enter email: ");
+                String email = input.nextLine();
+
+                System.out.print("Enter grad year: ");
+                int gradYear = input.nextInt();
+                input.nextLine();
+
+                System.out.print("Enter username: ");
+                String username = input.nextLine();
+
+                contacts.add(new Contact(name, email, gradYear, username));
+            
+            } else if (choice == 'e') {
+                // sort by email
+                contacts.sort(Comparator.comparing(c -> c.email));
+
+            } else if (choice == 'y') {
+                //sort by grad year
+                contacts.sort(Comparator.comparingInt(c -> c.gradYear));
+
+            } else if (choice == 'n') {
+                // sort by name
+                contacts.sort(Comparator.comparing(c -> c.name));
+
+            }
+            
+            // print contacts
+            System.out.println("\nContacts:");
+            for (Contact c : contacts) {
+                System.out.println(c);
+            }
+
+        } while (choice != 'q');
+         
+         
+         // save back to CSV
+          try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            for (Contact c : contacts) {
+                writer.write(c.name + "," + c.email + "," + c.gradYear + "," + c.username);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            System.out.println("Error saving file.");
+        }
+
+        input.close();  
+    }
+    
+}
